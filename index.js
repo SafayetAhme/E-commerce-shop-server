@@ -30,6 +30,7 @@ async function run() {
 
     const menusCollection = client.db("E-commerce-Shop").collection("menus");
     const blogsCollection = client.db("E-commerce-Shop").collection("blogs");
+    const addtocardCollection = client.db("E-commerce-Shop").collection("additems");
 
     // get menus api
     app.get('/menus', async (req, res) => {
@@ -40,6 +41,22 @@ async function run() {
     // get blogs api
     app.get('/blogs', async (req, res) => {
       const result = await blogsCollection.find().toArray();
+      res.send(result);
+    })
+
+    // add to cart post
+    app.post('/addtocart', async (req, res) => {
+      const addtocart = req.body;
+      console.log(addtocart)
+      const result = await addtocardCollection.insertOne(addtocart);
+      res.send(result);
+    })
+
+    // add to cart get api
+    app.get('/addtocart', async (req, res) => {
+      // const email = req.query.email;
+      // const query = { email: email };
+      const result = await addtocardCollection.find().toArray();
       res.send(result);
     })
 
